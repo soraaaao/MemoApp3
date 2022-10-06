@@ -1,0 +1,9 @@
+[アンドロイドエミュレーター]
+・ダウンロードしたエミュレーター一覧
+　emulator -list-avds
+
+・エミュレーター起動（ネットつながっている）
+　emulator @Pixel_3_API_29 -dns-server 8.8.8.8
+
+
+lesson80 でjsonファイルの中身見れる

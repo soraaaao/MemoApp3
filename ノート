@@ -1,0 +1,25 @@
+
+firebaseインストールしたら起きたエラー集
+１．idbがなんたらかんたら言ってるエラー
+idbC:\Users\OG\Desktop\programming\react_native\mealstogo\MealsToGo2\node_modules\@firebase\app\dist\esm\index.esm2017.jsC:\Users\OG\Desktop\programming\react_native\mealstogo\MealsToGo2\node_modules\idb\package.jsonmainC:\Users\OG\Desktop\programming\react_native\mealstogo\MealsToGo2\node_modules\idb\build\index.cjs
+
+
+https://stackoverflow.com/questions/72179070/react-native-bundling-failure-error-message-while-trying-to-resolve-module-i
+
+解決方法
+↓metro.config.jsファイル追加
+なにこのファイル・-・
+const { getDefaultConfig } = require("@expo/metro-config");
+
+const defaultConfig = getDefaultConfig(__dirname);
+
+defaultConfig.resolver.assetExts.push("cjs");
+
+module.exports = defaultConfig;
+
+
+２．そもそもfirebaseがnpm installできない
+
+解決方法
+→npm install ではなく npx expo install でインストール
+→依存関係に要るインストールエラーに効く
