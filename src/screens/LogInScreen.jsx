@@ -1,49 +1,28 @@
 import React, { useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, TouchableOpacity,
+  View, Text, StyleSheet, TextInput, TouchableOpacity, Alert
 } from 'react-native';
 import ButtonCom from '../components/Button';
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import { initializeApp } from "firebase/app";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDxm3o8OLAJaBDe3Jwk4iCMqPxbvTFafNw",
-  authDomain: "memoapp2-c1ce0.firebaseapp.com",
-  projectId: "memoapp2-c1ce0",
-  storageBucket: "memoapp2-c1ce0.appspot.com",
-  messagingSenderId: "511881521575",
-  appId: "1:511881521575:web:889383cef8b196c043ae82",
-};
-
-// const app = initializeApp(firebaseConfig);
-// const auth = getAuth();
+import firebase from 'firebase';
 
 export default function LoginScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
 
-function handlePless(auth, email, password) {
-  // console.log(email)
-  // console.log(password)
-
-  // console.log("関数実行開始")
-  // signInWithEmailAndPassword(auth, email, password)
-  // .then((userCredential) => {
-  //   // Signed in
-  //   const user = userCredential.user;
-  //   // ...
-  //   console.log(user)
-  // })
-  // .catch((error) => {
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  //   console.log(errorMessage)
-  // });
-  navigation.reset({
-    index: 0,
-    routes: [{ name: 'MemoList' }],
-  })
+function handlePless() {
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const { user } = userCredential;
+      console.log(user.uid)
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MemoList' }],
+      })
+    }).catch((error) => {
+      Alert.alert(error.code)
+    })
+  
 }
 
   return (
@@ -70,7 +49,7 @@ function handlePless(auth, email, password) {
         />
         <ButtonCom
           label="Submit"
-          onPress={() => handlePless(auth, email, password)}
+          onPress={() => handlePless()}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not resistered?</Text>
