@@ -2,32 +2,29 @@ import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, TouchableOpacity, Alert
 } from 'react-native';
-import ButtonCom from '../components/Button';
+import Button from '../components/Button';
 import firebase from 'firebase';
+import { navigationReset } from '../common/servece/commonLogic';
 
-export default function LoginScreen(props) {
+export default function SignUpScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
 
-function handlePless() {
-  firebase.auth().signInWithEmailAndPassword(email, password)
+  const handlePless = () => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      const { user } = userCredential;
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'MemoList' }],
-      })
+      const { user} = userCredential;
+      navigationReset(navigation, 'MemoList')
     }).catch((error) => {
       Alert.alert(error.code)
     })
-  
-}
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}>Log In</Text>
+        <Text style={styles.title}>Sign Up</Text>
         <TextInput
           value={email}
           style={styles.input} 
@@ -46,21 +43,18 @@ function handlePless() {
           secureTextEntry
           textContentType='password'
         />
-        <ButtonCom
-          label="Submit"
-          onPress={() => handlePless()}
+        <Button
+          label="submit"
+          onPress={handlePless}
         />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Not resistered?</Text>
+          <Text style={styles.footerText}>Already registered?</Text>
           <TouchableOpacity
-            onPress={() => { 
-                navigation.reset({
-                index: 0,
-                routes: [{name: 'SignUp'}],
-                })
+            onPress={() => {
+              navigationReset(navigation, 'LogIn')
             }}
-          >
-            <Text style={styles.footerLink}>Sign up here!</Text>
+            >
+            <Text style={styles.footerLink}>Log In.</Text>
           </TouchableOpacity>
         </View>
       </View>

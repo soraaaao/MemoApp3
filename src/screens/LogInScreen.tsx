@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TextInput, TouchableOpacity, Alert
 } from 'react-native';
-import Button from '../components/Button';
+import ButtonCom from '../components/Button';
 import firebase from 'firebase';
+import { navigationReset } from '../common/servece/commonLogic';
 
-export default function SignUpScreen(props) {
+export default function LoginScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
 
-  const handlePless = () => {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+  // 第２引数が配列だと、画面がレンダリングされたときのみ実行される
+  // 第２引数をしてしなければ、propsが変更されるたびに処理が走る
+  useEffect(() => {
+    // 画面がアンマウントされたときにログイン監視も一緒に取りやめるための処理
+    // firebase.auth().onA...以降の処理を変数に格納して実行すると、ログイン監視をやめることができる
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigationReset(navigation, 'MemoList')
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+function handlePless() {
+  firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      const { user} = userCredential;
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'MemoList' }],
-      })
+      const { user } = userCredential;
+      navigationReset(navigation, 'MemoList')
     }).catch((error) => {
       Alert.alert(error.code)
     })
-  }
+}
 
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <Text style={styles.title}>Sign Up</Text>
+        <Text style={styles.title}>Log In</Text>
         <TextInput
           value={email}
           style={styles.input} 
@@ -45,22 +57,21 @@ export default function SignUpScreen(props) {
           secureTextEntry
           textContentType='password'
         />
-        <Button
-          label="submit"
-          onPress={handlePless}
+        <ButtonCom
+          label="Submit"
+          onPress={() => handlePless()}
         />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Already registered?</Text>
+          <Text style={styles.footerText}>Not resistered?</Text>
           <TouchableOpacity
             onPress={() => { 
-              // testFunc(auth, "test20@test.com", "password1234")
-              navigation.reset({
+                navigation.reset({
                 index: 0,
-                routes: [{name: 'LogIn'}],
-              })
+                routes: [{name: 'SignUp'}],
+                })
             }}
-            >
-            <Text style={styles.footerLink}>Log In.</Text>
+          >
+            <Text style={styles.footerLink}>Sign up here!</Text>
           </TouchableOpacity>
         </View>
       </View>
