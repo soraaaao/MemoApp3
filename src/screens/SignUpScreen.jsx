@@ -11,22 +11,16 @@ export default function SignUpScreen(props) {
   const [password, setpassword] = useState('');
 
   const handlePless = () => {
-    console.log("関数処理開始")
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const { user} = userCredential;
-      console.log("成功しました")
-      console.log(user.uid)
       navigation.reset({
         index: 0,
         routes: [{ name: 'MemoList' }],
       })
     }).catch((error) => {
-      console.log("失敗しました")
-      console.log(error)
       Alert.alert(error.code)
     })
-    console.log("関数処理終了")
   }
 
   return (
