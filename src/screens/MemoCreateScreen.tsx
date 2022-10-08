@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 import CirecleButton from '../components/SircleButton';
+import firebase from 'firebase';
 
 export default function MemoCreateScreen(props) {
+  const [bodyText, setBodyText] = useState<string>("");
   const { navigation } = props;
+
+  function handlePless () {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    const rf = db.collection(`users/${currentUser && currentUser.uid}/memos`);
+    rf.add({
+      bodyText,
+      updatedAt: new Date(),
+    })
+      .then(() => {
+        navigation.goBack()
+      })
+      .catch(() => {
+      });
+  }
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <View style={styles.inputContainer}>
-        <TextInput value="" multiline style={styles.input} />
+        <TextInput 
+          value={bodyText}
+          multiline
+          style={styles.input}
+          onChangeText={(text) => setBodyText(text)}
+          autoFocus
+        />
       </View>
       <CirecleButton
         name="check"
-        onPress={() => { navigation.goBack() }}
+        onPress={handlePless}
       />
     </KeyboardAvoidingView>
   );
