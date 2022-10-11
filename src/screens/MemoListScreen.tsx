@@ -8,7 +8,6 @@ import firebase from 'firebase';
 export default function MemoListScreen(props) {
   const { navigation } = props;
   const [memoList, setMemoList] = useState([]);
-  console.log(memoList)
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <LogOutButton />,
@@ -16,7 +15,6 @@ export default function MemoListScreen(props) {
   }, []);
 
   useEffect(() => {
-    console.log("ここきたよ")
     const db = firebase.firestore();
     const { currentUser } = firebase.auth();
     let unsubscribe = () => {};
@@ -35,7 +33,6 @@ export default function MemoListScreen(props) {
         })
         setMemoList(userMemoList);
       }, (error) => {
-        console.log(error)
         Alert.alert("データの読み込みに失敗しました。")
       });
     }
