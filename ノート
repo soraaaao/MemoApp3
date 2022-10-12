@@ -37,3 +37,13 @@ MemoEditコンポーネントで第二引数にしていしたものが
 propsとして渡される↓routeの中に入ってる
 const { navigation, route } = props;
 const { id, bodyText } = route.params;
+
+
+[react-native]
+style={[styles.buttonContainer, style]}
+二つのスタイル適用、二つ目が上書きされる
+
+[git]
+.gitkeepファイル
+中身が空のフォルダを作成してgitのなんていうんだっけかな。。。
+gitで管理したいとき？？？にこのファイルを入れておく

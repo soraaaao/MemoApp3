@@ -5,11 +5,13 @@ import {
 import ButtonCom from '../components/Button';
 import firebase from 'firebase';
 import { navigationReset } from '../common/servece/commonLogic';
+import Loading from '../components/Loading';
 
 export default function LoginScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setpassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   // 第２引数が配列だと、画面がレンダリングされたときのみ実行される
   // 第２引数をしてしなければ、propsが変更されるたびに処理が走る
@@ -17,8 +19,12 @@ export default function LoginScreen(props) {
     // 画面がアンマウントされたときにログイン監視も一緒に取りやめるための処理
     // firebase.auth().onA...以降の処理を変数に格納して実行すると、ログイン監視をやめることができる
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      // ログイン状態であればメモリスト画面へ遷移
       if (user) {
         navigationReset(navigation, 'MemoList')
+      } else {
+        // ログイン状態でなければローディング解除
+        setIsLoading(false)
       }
     });
 
@@ -26,17 +32,21 @@ export default function LoginScreen(props) {
   }, []);
 
 function handlePless() {
+  setIsLoading(true)
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const { user } = userCredential;
       navigationReset(navigation, 'MemoList')
     }).catch((error) => {
       Alert.alert(error.code)
+    }).then(() => {
+      setIsLoading(false);
     })
 }
 
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading} />
       <View style={styles.inner}>
         <Text style={styles.title}>Log In</Text>
         <TextInput
