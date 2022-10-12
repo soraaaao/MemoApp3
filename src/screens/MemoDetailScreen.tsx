@@ -47,7 +47,7 @@ export default function MemoDetailScreen(props) {
       <CirecleButton
         name="edit-2"
         style={{ top: 60, bottom: 'auto' }}
-        onPress={() => { navigation.navigate('MemoEdit')}}
+        onPress={() => { navigation.navigate('MemoEdit', { id: memo.id, bodyText: memo.bodyText})}}
       />
     </View>
   );

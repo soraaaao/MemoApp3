@@ -1,22 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View, StyleSheet, TextInput, KeyboardAvoidingView, Alert,
 } from 'react-native';
 import CirecleButton from '../components/SircleButton';
+import { shape, string } from 'prop-types';
+import firebase from 'firebase';
+
 
 export default function MemoEditScreen(props) {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { id, bodyText } = route.params;
+  const [body, setBody] = useState(bodyText);
+
+  function handlPress () {
+    const { currentUser } = firebase.auth();
+    if (currentUser) {
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+      ref.set({
+        bodyText: body,
+        updatedAt: new Date(),
+      }, {merge: true})
+      .then(() => {
+        // 処理が成功したら前の画面に戻る
+        navigation.goBack()
+      })
+      .catch((error) => {
+        Alert.alert(error.code);
+      });
+    }
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <View style={styles.inputContainer}>
-        <TextInput value="買い物リスト" multiline style={styles.input} />
+        <TextInput 
+          value={body} 
+          multiline 
+          style={styles.input}
+          onChangeText={(text) => { setBody(text) }}
+        />
       </View>
       <CirecleButton
         name="check"
-        onPress={() => { navigation.goBack() }}
+        onPress={handlPress}
       />
     </KeyboardAvoidingView>
   );
+}
+
+MemoEditScreen.propTypes = {
+  route: shape({
+    params: shape({ id: string, bodyText: string }),
+  }).isRequired,
 }
 
 const styles = StyleSheet.create({
