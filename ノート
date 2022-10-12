@@ -10,9 +10,30 @@ db.collection(`users/${currentUser.uid}/memos`).doc(id)
 並び替え
 db.collection(`users/${currentUser.uid}/memos`).orderBy("updatedAt", "desc");
 
-データ追加
+データinsert
 db.collection(`users/${currentUser.uid}/memos`)
 .add({
       bodyText,
       updatedAt: new Date(),
     })
+
+データupdate
+※データを上書きするため、bodyText以外にプロパティがあれば消えてしまう。
+db.collection(`users/${currentUser.uid}/memos`).doc(id)
+.set({
+        bodyText: body,
+      })
+      .then().catch()
+
+setの第二引数に{merge: true}を指定すると、指定した部分だけ更新をかけてくれる
+ref.set({
+        bodyText: body,
+        updatedAt: new Date(),
+      }, {merge: true})
+
+[react-native navigation]
+navigation.navigate('MemoEdit', { id: memo.id, bodyText: memo.bodyText})
+MemoEditコンポーネントで第二引数にしていしたものが
+propsとして渡される↓routeの中に入ってる
+const { navigation, route } = props;
+const { id, bodyText } = route.params;
