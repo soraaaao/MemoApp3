@@ -5,7 +5,7 @@ import {
 import CirecleButton from '../components/SircleButton';
 import { shape, string } from 'prop-types';
 import firebase from 'firebase';
-
+import { translateErrors } from '../common/servece/commonLogic';
 
 export default function MemoEditScreen(props) {
   const { navigation, route } = props;
@@ -26,7 +26,8 @@ export default function MemoEditScreen(props) {
         navigation.goBack()
       })
       .catch((error) => {
-        Alert.alert(error.code);
+        const errorMs = translateErrors(error.code)
+        Alert.alert(errorMs.title, errorMs.description)
       });
     }
   }
