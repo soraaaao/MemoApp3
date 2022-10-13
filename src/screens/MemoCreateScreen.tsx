@@ -24,7 +24,7 @@ export default function MemoCreateScreen(props) {
       });
   }
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
+    <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={-500} behavior="padding">
       <View style={styles.inputContainer}>
         <TextInput 
           value={bodyText}
@@ -45,6 +45,8 @@ export default function MemoCreateScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backGroundColor: "red",
+    color: "red"
   },
   inputContainer: {
     paddingHorizontal: 27,

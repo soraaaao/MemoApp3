@@ -33,7 +33,7 @@ export default function MemoEditScreen(props) {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
+    <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={-500} behavior="padding">
       <View style={styles.inputContainer}>
         <TextInput 
           value={body} 
