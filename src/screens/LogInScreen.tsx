@@ -6,6 +6,7 @@ import ButtonCom from '../components/Button';
 import firebase from 'firebase';
 import { navigationReset } from '../common/servece/commonLogic';
 import Loading from '../components/Loading';
+import { translateErrors } from '../common/servece/commonLogic';
 
 export default function LoginScreen(props) {
   const { navigation } = props;
@@ -38,7 +39,8 @@ function handlePless() {
       const { user } = userCredential;
       navigationReset(navigation, 'MemoList')
     }).catch((error) => {
-      Alert.alert(error.code)
+      const errorMs = translateErrors(error.code)
+      Alert.alert(errorMs.title, errorMs.description)
     }).then(() => {
       setIsLoading(false);
     })

@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import Button from '../components/Button';
 import firebase from 'firebase';
-import { navigationReset } from '../common/servece/commonLogic';
+import { navigationReset, translateErrors } from '../common/servece/commonLogic';
 
 export default function SignUpScreen(props) {
   const { navigation } = props;
@@ -17,7 +17,8 @@ export default function SignUpScreen(props) {
       const { user} = userCredential;
       navigationReset(navigation, 'MemoList')
     }).catch((error) => {
-      Alert.alert(error.code)
+      const errorMs = translateErrors(error.code)
+      Alert.alert(errorMs.title, errorMs.description)
     })
   }
 
