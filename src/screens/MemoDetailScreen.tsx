@@ -40,9 +40,11 @@ export default function MemoDetailScreen(props) {
       </View>
 
       <ScrollView style={styles.memobody}>
-        <Text style={styles.memotext}>
-          {memo && memo.bodyText && memo.bodyText}
-        </Text>
+        <View style={styles.memobodyInner}>
+          <Text style={styles.memotext}>
+            {memo && memo.bodyText && memo.bodyText}
+          </Text>
+        </View>
       </ScrollView>
       <CirecleButton
         name="edit-2"
@@ -83,8 +85,11 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   memobody: {
-    paddingVertical: 32,
     paddingHorizontal: 27,
+  },
+  memobodyInner: {
+    paddingTop: 32,
+    paddingBottom: 40,
   },
   memotext: {
     fontSize: 16,
