@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   memoheader: {
-    backgroundColor: '#467FD3',
+    backgroundColor: '#F3AB57',
     height: 90,
     justifyContent: 'center',
     paddingVertical: 24,

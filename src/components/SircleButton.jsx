@@ -25,7 +25,7 @@ CirecleButton.defaultProps = {
 
 const styles = StyleSheet.create({
   circleBottom: {
-    backgroundColor: '#467FD3',
+    backgroundColor: '#F3AB57',
     width: 64,
     height: 64,
     borderRadius: 32,
