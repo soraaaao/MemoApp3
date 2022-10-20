@@ -26,7 +26,7 @@ export default function MemoListScreen(props) {
       const ref = db.collection(`users/${currentUser.uid}/memos`).orderBy("updatedAt", "desc");
       unsubscribe = ref.onSnapshot((snapshot) => {
         // 型定義
-        const userMemoList: Array<any> = [];
+        const userMemoList = [];
         snapshot.forEach((doc) => {
           const data = doc.data();
           userMemoList.push({
@@ -45,7 +45,7 @@ export default function MemoListScreen(props) {
     return unsubscribe
   }, [])
 
-  const handlePress: () => void = useCallback(() => {
+  const handlePress = useCallback(() => {
     navigation.navigate('MemoCreate')
   }, [navigation]);
 

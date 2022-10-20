@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, KeyboardAvoidingView,
+  View, StyleSheet, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 import CirecleButton from '../components/SircleButton';
 import firebase from 'firebase';
 
 export default function MemoCreateScreen(props) {
-  const [bodyText, setBodyText] = useState<string>("");
+  const [bodyText, setBodyText] = useState("");
   const { navigation } = props;
 
   function handlePless () {
@@ -45,7 +45,7 @@ export default function MemoCreateScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backGroundColor: "red",
+    backgroundColor: "white",
     color: "red"
   },
   inputContainer: {

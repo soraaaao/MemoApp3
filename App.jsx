@@ -9,6 +9,7 @@ import LoginScreen from './src/screens/LogInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import firebase from 'firebase';
 import { firebaseConfig } from './env';
+import 'react-native-gesture-handler';
 
 require('firebase/firestore')
 
